@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- ===== SEO ===== -->
+  <title>Page Title — Site Name</title>
+  <meta name="description" content="Page description (under 160 chars).">
+  <link rel="canonical" href="https://example.com/page-slug">
+
+  <!-- ===== Open Graph ===== -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Page Title — Site Name">
+  <meta property="og:description" content="Page description.">
+  <meta property="og:image" content="">
+  <meta property="og:url" content="https://example.com/page-slug">
+
+  <!-- ===== Twitter ===== -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Page Title — Site Name">
+  <meta name="twitter:description" content="Page description.">
+
+  <!-- ===== Favicon ===== -->
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="apple-touch-icon" href="/webclip.png">
+
+  <!-- ===== Fonts (preconnect) ===== -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <!-- ===== Stylesheets ===== -->
+  <!-- Order matters: tokens → base → shared components → page-specific -->
+  <link rel="stylesheet" href="../_shared/tokens.css">
+  <link rel="stylesheet" href="../_shared/base.css">
+  <link rel="stylesheet" href="../_shared/components.css">
+  <!-- <link rel="stylesheet" href="page-name.css"> -->
+</head>
+<body>
+
+  <!-- ============================================
+       NAVBAR
+       (markup added when first page needs it; copy
+        the navbar from the existing site export and
+        refactor to BEM single-underscore.)
+       ============================================ -->
+  <header class="site-nav">
+    <div class="container">
+      <!-- TODO: navbar -->
+    </div>
+  </header>
+
+
+  <!-- ============================================
+       MAIN
+       Sections added one at a time, iteratively.
+       ============================================ -->
+  <main>
+
+    <!-- ===== SECTION: HERO ===== -->
+    <section class="section section_hero">
+      <div class="container">
+        <p class="text_eyebrow">Eyebrow</p>
+        <h1 class="heading_xl">Page headline goes here.</h1>
+        <p class="text_lead">Sub-headline expanding on the H1 in one or two sentences.</p>
+        <div class="hero_actions">
+          <a href="#" class="button">Primary CTA</a>
+          <a href="#" class="button button_outline">Secondary CTA</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Add subsequent sections here, one at a time. -->
+
+  </main>
+
+
+  <!-- ============================================
+       FOOTER
+       (markup added when first page needs it.)
+       ============================================ -->
+  <footer class="site-footer">
+    <div class="container">
+      <!-- TODO: footer -->
+    </div>
+  </footer>
+
+
+  <!-- ===== Scripts (page-specific) ===== -->
+  <!-- <script src="page-name.js"></script> -->
+
+  <!--
+    When ready to push to Webflow:
+      1. Copy templates/_build.py into this page's _converter/ folder, set
+         PAGE_SLUG, PREFIX, and COLLIDE_RENAMES at the top.
+      2. Run: python pages/<slug>/_converter/_build.py
+      3. Paste the generated .webflow.{html,css,js} into the Modern HTML to
+         Webflow Converter at https://moden.club/tools/html-to-webflow.
+    See the html-to-converter-webflow skill for the full flow.
+  -->
+</body>
+</html>

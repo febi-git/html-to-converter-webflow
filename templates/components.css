@@ -1,0 +1,94 @@
+/* =============================================
+   SHARED COMPONENTS
+   Reusable across multiple pages.
+   Page-specific components live in the page's own
+   CSS file (e.g. pages/<slug>/<slug>.css), NOT here.
+   Promote to this file only if a 2nd page needs it.
+
+   Naming pattern:
+     .block-name             — block (kebab-case)
+     .block-name_element     — element (single underscore)
+     .block-name.is_state    — state modifier (combo class)
+   ============================================= */
+
+
+/* =========================================
+   BUTTON
+   Use as: <a class="button">…</a>
+   Variants: <a class="button button_outline">…</a>
+   ========================================= */
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xs);
+  padding: 0.5625rem 2rem;
+  background-color: var(--color-primary);
+  color: var(--color-white);
+  font-family: var(--font-body);
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-medium);
+  line-height: 1.5;
+  text-align: center;
+  border-radius: var(--radius-pill);
+  transition: background-color var(--transition-base),
+              color var(--transition-base);
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.button:hover {
+  background-color: var(--color-primary-dark);
+  color: var(--color-white);
+}
+
+.button:active {
+  opacity: 0.6;
+}
+
+.button_outline {
+  background-color: transparent;
+  color: var(--color-black);
+  box-shadow: inset 0 0 0 1px currentColor;
+}
+
+.button_outline:hover {
+  background-color: var(--color-black);
+  color: var(--color-white);
+}
+
+.button_dark {
+  background-color: var(--color-black);
+  color: var(--color-white);
+}
+
+.button_dark:hover {
+  background-color: var(--color-text-muted);
+  color: var(--color-white);
+}
+
+.button_light {
+  background-color: var(--color-white);
+  color: var(--color-black);
+}
+
+.button_light:hover {
+  background-color: var(--color-bg-alt);
+  color: var(--color-black);
+}
+
+.button_large {
+  padding: 0.875rem 2.5rem;
+  font-size: var(--font-size-h6);
+}
+
+.button_small {
+  padding: 0.375rem 1.25rem;
+  font-size: var(--font-size-s);
+}
+
+
+/* =========================================
+   FUTURE COMPONENTS APPENDED BELOW
+   ========================================= */

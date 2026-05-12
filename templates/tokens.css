@@ -1,0 +1,139 @@
+/* =============================================
+   DESIGN TOKENS
+   Source of truth for colors, type, spacing.
+   Add/edit values here only — never hardcode in
+   page or component CSS.
+
+   The build script auto-extracts these into
+   VAR_TO_LITERAL at export time. Every var(--...)
+   reference in your CSS gets replaced with the
+   literal value below.
+   ============================================= */
+
+:root {
+
+  /* =========================================
+     COLORS
+     Replace with your project's brand palette.
+     ========================================= */
+
+  /* Brand */
+  --color-primary:      #ff4f41;
+  --color-primary-dark: #cf4111;
+  --color-black:        #1f1f1f;
+  --color-white:        #ffffff;
+
+  /* Neutrals (light → dark) */
+  --color-bg:           #fffdeb;
+  --color-bg-alt:       #f8f0d5;
+  --color-border:       #eee1c1;
+  --color-text-muted:   #6c6354;
+  --color-text:         #1f1f1f;
+
+  /* Semantic shortcuts */
+  --color-text-inverse: var(--color-white);
+  --color-bg-dark:      var(--color-black);
+
+
+  /* =========================================
+     TYPOGRAPHY
+     ========================================= */
+
+  --font-display: "Bricolage Grotesque", sans-serif;
+  --font-body:    "Inter", sans-serif;
+
+  /* Type scale (modular ratio 1.2, base 16px = 1rem) */
+  --font-size-xs:      0.694rem;
+  --font-size-s:       0.833rem;
+  --font-size-base:    1rem;
+  --font-size-body:    1.125rem;
+  --font-size-h6:      1.2rem;
+  --font-size-h5:      1.44rem;
+  --font-size-h4:      1.728rem;
+  --font-size-h3:      2.074rem;
+  --font-size-h2:      2.488rem;
+  --font-size-h1:      2.986rem;
+  --font-size-display: 6.25rem;
+
+  /* Weights */
+  --font-weight-light:     300;
+  --font-weight-regular:   400;
+  --font-weight-medium:    500;
+  --font-weight-semibold:  600;
+  --font-weight-bold:      700;
+  --font-weight-extrabold: 800;
+
+  /* Line heights */
+  --line-height-tight:   1;
+  --line-height-display: 0.9;
+  --line-height-heading: 1.2;
+  --line-height-body:    1.5;
+  --line-height-loose:   1.7;
+
+  /* Letter spacing */
+  --letter-spacing-tight:  -0.02em;
+  --letter-spacing-normal: 0;
+  --letter-spacing-wide:   0.08em;
+
+
+  /* =========================================
+     SPACING SCALE  (1rem = 16px)
+     ========================================= */
+
+  --space-2xs: 0.25rem;
+  --space-xs:  0.5rem;
+  --space-s:   1rem;
+  --space-m:   1.5rem;
+  --space-l:   2rem;
+  --space-xl:  3rem;
+  --space-2xl: 4rem;
+  --space-3xl: 5rem;
+  --space-4xl: 6rem;
+  --space-5xl: 8rem;
+
+
+  /* =========================================
+     LAYOUT
+     ========================================= */
+
+  --container-max-width:        86.25rem;
+  --container-padding-x:        2.5rem;
+  --container-padding-x-tablet: 1.5rem;
+  --container-padding-x-mobile: 1.25rem;
+
+  --section-padding-y:        5rem;
+  --section-padding-y-small:  2.5rem;
+  --section-padding-y-large:  6.25rem;
+  --section-padding-top-hero: 7.5rem;
+
+
+  /* =========================================
+     RADII
+     ========================================= */
+
+  --radius-pill:       6.25rem;
+  --radius-card:       1rem;
+  --radius-card-large: 1.5rem;
+  --radius-input:      0.5rem;
+
+
+  /* =========================================
+     MOTION
+     ========================================= */
+
+  --transition-fast: 150ms ease;
+  --transition-base: 200ms ease;
+  --transition-slow: 400ms ease;
+  --easing-out:      cubic-bezier(0.4, 0, 0.2, 1);
+  --easing-in-out:   cubic-bezier(0.65, 0, 0.35, 1);
+
+
+  /* =========================================
+     ELEVATION
+     ========================================= */
+
+  --shadow-soft:   0 0.25rem 1rem rgba(31, 31, 31, 0.06);
+  --shadow-medium: 0 0.5rem 1.5rem rgba(31, 31, 31, 0.10);
+  --shadow-strong: 0 1rem 3rem rgba(31, 31, 31, 0.16);
+
+}
