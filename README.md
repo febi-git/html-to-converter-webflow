@@ -1,5 +1,9 @@
 # html-to-converter-webflow
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![Claude Code Skill](https://img.shields.io/badge/Claude%20Code-Skill-D77757)](https://docs.claude.com/en/docs/claude-code/skills)
+[![Works with Webflow](https://img.shields.io/badge/Works%20with-Webflow-146EF5)](https://webflow.com)
+
 A Claude Code skill (works in other AI coding agents too) that turns hand-coded HTML/CSS/JS into clean, Webflow-importable bundles via the **Modern HTML to Webflow Converter** ([moden.club/tools/html-to-webflow](https://moden.club/tools/html-to-webflow)).
 
 It encodes ~48 fixes that came out of shipping a real production page through this workflow — the things you'd otherwise re-discover the hard way: class collisions with the live site, Designer canvas scroll lag, GSAP/ScrollTrigger timing issues, asset re-linking, and Webflow re-import cleanup.
