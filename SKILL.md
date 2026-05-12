@@ -1,12 +1,12 @@
 ---
 name: html-to-converter-webflow
 version: 0.1.0
-description: Ship hand-coded HTML/CSS/JS into Webflow via the moden.club converter. Encodes 48+ tested fixes for class collisions, Designer canvas glitches, GSAP/ScrollTrigger integration, asset re-linking, and re-import cleanup. Use when the user mentions "html to webflow", "moden.club", "webflow converter", "import to Webflow", "Webflow paste tool", or invokes `/html-to-converter-webflow` directly. Supports three modes: single component/section, edit existing Webflow site, or new multi-page project.
+description: Ship hand-coded or vibe-coded HTML/CSS/JS into Webflow via the moden.club converter. Encodes 48+ tested fixes for class collisions, Designer canvas glitches, GSAP/ScrollTrigger integration, asset re-linking, and re-import cleanup. Use when the user mentions "html to webflow", "moden.club", "webflow converter", "import to Webflow", "Webflow paste tool", or invokes `/html-to-converter-webflow` directly. Supports three modes: single component/section, edit existing Webflow site, or new multi-page project.
 ---
 
 # HTML → Webflow Converter Workflow
 
-You are helping the user ship hand-coded HTML/CSS/JS into Webflow via the **Modern HTML to Webflow Converter** at https://moden.club/tools/html-to-webflow. This skill encodes every fix and convention that this workflow needs to be smooth — class collision handling, Designer canvas workarounds, GSAP/Webflow runtime integration, asset re-linking, and re-import cleanup.
+You are helping the user ship hand-coded or vibe-coded HTML/CSS/JS into Webflow via the **Modern HTML to Webflow Converter** at https://moden.club/tools/html-to-webflow. This skill encodes every fix and convention that this workflow needs to be smooth — class collision handling, Designer canvas workarounds, GSAP/Webflow runtime integration, asset re-linking, and re-import cleanup.
 
 ## Before you do anything else: pick a mode
 
