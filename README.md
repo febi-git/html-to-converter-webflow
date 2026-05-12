@@ -47,7 +47,7 @@ git clone https://github.com/febi-git/html-to-converter-webflow ~/.claude/skills
 git clone https://github.com/febi-git/html-to-converter-webflow $env:USERPROFILE\.claude\skills\html-to-converter-webflow
 ```
 
-Restart Claude Code. The skill appears in `/help` and triggers automatically when you mention Webflow conversion topics.
+> **⚠️ Restart required.** After cloning, **fully restart Claude Code** — and if you're using the **Claude Code VS Code extension**, **close and reopen VS Code entirely** (not just the Claude panel). The `/html-to-converter-webflow` slash command will not appear in the menu until the editor is restarted. Once restarted, the skill shows up in `/help` and triggers automatically when you mention Webflow conversion topics.
 
 ### Cursor
 
@@ -83,11 +83,13 @@ If you want different defaults per project (different prefix, different `COLLIDE
 git clone https://github.com/febi-git/html-to-converter-webflow ./.claude/skills/html-to-converter-webflow
 ```
 
+> **VS Code users:** restart VS Code (not just reload the window or restart the Claude panel) before the per-project skill becomes available.
+
 ## First run (5 steps)
 
-1. **Install** using the command for your agent (above).
+1. **Install** using the command for your agent (above), then **restart your editor** — VS Code users must fully close and reopen VS Code, not just reload the window, before the slash command shows up.
 2. **Open your agent** in any folder — a scratch folder works fine for the first run.
-3. **Type** `/html-to-converter-webflow` (Claude Code) or "use the html-to-converter-webflow workflow" (other agents).
+3. **Type** `/html-to-converter-webflow` (Claude Code) or "use the html-to-converter-webflow workflow" (other agents). If the slash command doesn't autocomplete, the editor hasn't picked up the new skill yet — restart it.
 4. **Answer "a"** for "Building a single component or section" — the smallest, fastest path to your first successful Webflow import.
 5. **Follow the prompts.** The skill asks for your component idea, writes the HTML/CSS/JS, runs the build script, and walks you step-by-step through pasting into [moden.club](https://moden.club/tools/html-to-webflow) and importing into Webflow.
 
