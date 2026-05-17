@@ -17,7 +17,10 @@ Before scaffolding, confirm with the user:
 
 1. **What is the component?** (e.g. "a hero with a wave canvas", "a 4-up service grid", "a stats strip")
 2. **Will it be embedded in an existing Webflow site?** If yes, you need to know whether the site already has classes that might collide. Skim [reference/class-collisions.md](../reference/class-collisions.md). If the user has the existing site's CSS export, do a quick collision check.
-3. **What's the design source?** (figma file, screenshot, written brief)
+3. **What's the design source, and what are you actually going for?** Don't settle for a one-word answer here — this is where the component succeeds or fails. Invite the user to:
+   - **Explain the idea in their own words** — the purpose of the component, the feel they want, anything they specifically like or want to avoid.
+   - **Share references**: a screenshot or mockup, a Figma link, a live URL to emulate, or an existing component/codebase to match the style of. If they paste or point to reference code, read it before authoring.
+   - If they have nothing to share, say so and proceed with sensible defaults — but ask before assuming. (This is the per-mode reinforcement of the global "Gather the design intent" step in [SKILL.md](../SKILL.md).)
 4. **Does the component need animation?** If yes, you'll wire GSAP — confirm the user understands GSAP must be added to Webflow's Footer Code (covered in [reference/webflow-runtime.md](../reference/webflow-runtime.md)).
 
 ### Step 2 — Scaffold a minimal working directory
@@ -84,16 +87,24 @@ Walk the user through [reference/webflow-designer-checklist.md](../reference/web
 
 1. Open the converter at https://moden.club/tools/html-to-webflow.
 2. Paste each `.webflow.*` file into its respective tab (HTML / CSS / JS).
-3. Convert. Inspect the generated Webflow markup.
-4. **For embedding in an existing page:** copy the generated structure into a Webflow Embed element on that page, OR drag it into the page directly via Webflow's import flow.
-5. **For a brand-new page:** create a new page in Webflow's Pages panel, then import.
+3. Click **`→ Convert to Webflow`**. The converter copies a Webflow-pasteable markup snippet to your clipboard — there is no API push or sign-in, clipboard copy is the only flow.
+4. Note that the converter inlines your CSS/JS as `<style>`/`<script>` Embed nodes inside the component. For a reusable component, relocate them to site Custom Code after pasting — see *"What the converter actually outputs"* in [reference/webflow-designer-checklist.md](../reference/webflow-designer-checklist.md).
+5. **For an existing page:** switch to Webflow Designer and paste into the canvas at the insertion point (or into a Webflow Embed element on that page). **For a brand-new page:** create the page in Webflow's Pages panel first, then paste into its canvas.
 6. Re-link any images: see [reference/asset-handling.md](../reference/asset-handling.md).
 7. If using GSAP: confirm the GSAP + ScrollTrigger CDN tags are in **Project Settings → Custom Code → Footer Code**. See [reference/webflow-runtime.md](../reference/webflow-runtime.md).
 8. Publish to staging, smoke-test in the Designer canvas (no scroll lag, no layout glitches), publish to production.
 
 ### Step 7 — Show the user, iterate
 
-After import, ask the user to confirm the component looks correct in Designer + on the published site. If not, edit the source files (NOT the `.webflow.*` outputs), re-run `_build.py`, re-import (delete the old version in Webflow first if it's stale).
+After import, ask the user to confirm the component looks correct in Designer + on the published site. If not, edit the source files (NOT the `.webflow.*` outputs), re-run `_build.py`, and re-import.
+
+**Re-import cleanup (important — there is no page to delete in this mode).** Mode B re-imports delete the whole page, which prunes orphan classes for you. Re-importing a single component does *not* — Webflow keeps every class from the previous paste forever, and auto-suffixes (`acme-card`, `acme-card-2`, …) if the new paste collides. Before pasting the rebuilt version:
+
+1. Delete the **old pasted instance** from the page (select it in the canvas/Navigator → Delete).
+2. Open the **Class Manager** (Style Manager → Classes) and delete the previous version's classes that nothing else references (right-click → Delete) — especially any you renamed or removed in the rebuild.
+3. Then paste the new converter output.
+
+Skipping this is the #1 source of class-manager bloat for single-component workflows. See [reference/webflow-designer-checklist.md](../reference/webflow-designer-checklist.md) → *Class manager check*.
 
 ## Common one-component pitfalls
 

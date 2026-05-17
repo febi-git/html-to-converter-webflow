@@ -85,6 +85,26 @@ git clone https://github.com/febi-git/html-to-converter-webflow ./.claude/skills
 
 > **VS Code users:** restart VS Code (not just reload the window or restart the Claude panel) before the per-project skill becomes available.
 
+## Updating
+
+Installs are a one-time `git clone` — they **don't auto-update**. To pull the latest fixes, run `git pull` inside your installed copy, then restart your editor.
+
+**Claude Code (Windows / PowerShell):**
+```powershell
+git -C "$env:USERPROFILE\.claude\skills\html-to-converter-webflow" pull
+```
+
+**Claude Code (macOS / Linux):**
+```bash
+git -C ~/.claude/skills/html-to-converter-webflow pull
+```
+
+For Cursor / Cline / per-project installs, run `git pull` in whichever folder you cloned into (`.cursor/rules/...`, `.clinerules/...`, `./.claude/skills/...`).
+
+> **Restart required.** Same as install — fully restart Claude Code, and close/reopen VS Code entirely if you use the extension, before the updated skill loads.
+
+To check whether you're behind, compare the `version:` field at the top of your local `SKILL.md` against the [latest `SKILL.md`](https://github.com/febi-git/html-to-converter-webflow/blob/main/SKILL.md) on GitHub. Changes are listed in [CHANGELOG.md](CHANGELOG.md). If you locally edited your copy (custom prefix, `COLLIDE_RENAMES` baseline), `git pull` may report merge conflicts — resolve them or re-clone fresh.
+
 ## First run (5 steps)
 
 1. **Install** using the command for your agent (above), then **restart your editor** — VS Code users must fully close and reopen VS Code, not just reload the window, before the slash command shows up.

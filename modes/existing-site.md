@@ -13,6 +13,15 @@ Ask the user (use AskUserQuestion):
 
 Then jump to the corresponding section below.
 
+## Before authoring — gather the design intent
+
+For B2 (new page) and B3 (modify a page), don't start authoring from a one-line request. Per the global [SKILL.md](../SKILL.md) "Gather the design intent" step, invite the user to:
+
+- **Explain the idea** — what the page/change is for, the feel they want, what to match the existing site on and where it can diverge.
+- **Share references** — a screenshot/mockup, a Figma link, the live page being changed (B3), or sibling pages on the same site whose style the new page should match (B2). If they point you at existing code or a live URL, read/inspect it before authoring.
+
+B1 (working from an export) is mechanical extraction — this matters most before the B2/B3 authoring step.
+
 ---
 
 ## B1 — Working from a Webflow export

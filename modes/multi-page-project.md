@@ -95,7 +95,8 @@ Use sub-flow B2 (`existing-site.md` → "Add a new page"), but starting from bla
 2. Create `pages/home/home.css` (empty).
 3. Create `pages/home/home.js` if needed (use [templates/page.js](../templates/page.js)).
 4. Copy [templates/_build.py](../templates/_build.py) → `pages/home/_converter/_build.py`. Set `PAGE_SLUG = "home"`.
-5. Author the home page section by section. Hero first, show the user, iterate.
+5. **Gather the design intent before authoring.** Per the global [SKILL.md](../SKILL.md) step, have the user explain the project — what it is, the audience, the feel — and share references: screenshots/mockups, a Figma file, a site to emulate, or an existing codebase whose style to match. For a multi-page project this is also where you establish the design language the *whole* site inherits, so it's worth doing thoroughly. Read any reference code/URLs before writing.
+6. Author the home page section by section. Hero first, show the user, iterate.
 
 ### 4. Reusing components across pages
 

@@ -54,6 +54,8 @@ The `window.Webflow = window.Webflow || []` is a defensive shim — it handles t
 
 The transformation is in `build_js()` of [templates/_build.py](../templates/_build.py).
 
+> **Caveat — inline Embed vs. Footer Code.** The moden.club converter outputs your JS as an inline `<script>` Webflow Embed inside the component, not as site Footer Code. An inline Embed script runs when its DOM node mounts, not via Webflow's runtime queue — so the `Webflow.push()` wrapper has reduced effect there (and the script doesn't run in the Designer canvas at all). The wrapper does its intended job only once you relocate the JS to Footer Code. See *"What the converter actually outputs"* in [webflow-designer-checklist.md](webflow-designer-checklist.md).
+
 ---
 
 ## 3. `body { overflow-x: hidden }` mobile safety

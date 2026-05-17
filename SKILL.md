@@ -1,6 +1,6 @@
 ---
 name: html-to-converter-webflow
-version: 0.1.0
+version: 0.1.1
 description: Ship hand-coded or vibe-coded HTML/CSS/JS into Webflow via the moden.club converter. Encodes 48+ tested fixes for class collisions, Designer canvas glitches, GSAP/ScrollTrigger integration, asset re-linking, and re-import cleanup. Use when the user mentions "html to webflow", "moden.club", "webflow converter", "import to Webflow", "Webflow paste tool", or invokes `/html-to-converter-webflow` directly. Supports three modes: single component/section, edit existing Webflow site, or new multi-page project.
 ---
 
@@ -26,6 +26,18 @@ Use AskUserQuestion to ask. Then load the matching mode file and follow it:
 | c)     | [modes/multi-page-project.md](modes/multi-page-project.md)                  |
 
 If the user is ambiguous ("I want to add something to my site" — does that mean a new page or modifying an existing one?), ask follow-up questions. Don't assume.
+
+## Gather the design intent
+
+Once the mode is picked, **before scaffolding or authoring anything**, give the user room to tell you what they actually want. Don't jump straight to writing code from a one-line request — the output is only as good as the brief.
+
+Ask the user (open-ended; use AskUserQuestion or a plain prompt):
+
+> Tell me about what you're building. A couple of things help a lot:
+> - **The idea, in your words** — what this is, who it's for, the feel you want, anything you specifically like or want to avoid.
+> - **References** — paste or link any of: a screenshot/mockup, a Figma file, a live URL to emulate, or existing code/components whose style you want matched.
+
+This is optional but strongly encouraged. If the user shares reference code or a URL, read/inspect it before authoring. If they have nothing to share, say so explicitly and proceed with sensible, on-brief defaults — don't silently assume a direction. The mode files reinforce this in their first step; this is the single place it's asked up front for every mode.
 
 ## Reference docs (load on demand)
 

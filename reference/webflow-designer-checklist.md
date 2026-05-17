@@ -88,15 +88,31 @@ The converter has three tabs: **HTML**, **CSS**, **JS**.
 2. Open `pages/<slug>/_converter/<slug>.webflow.css` → copy entire contents → paste into the converter's **CSS** tab.
 3. Open `pages/<slug>/_converter/<slug>.webflow.js` → copy entire contents → paste into the converter's **JS** tab.
 
-### Step 4 — Convert + import to Webflow
+### What the converter actually outputs
 
-The converter has a "Convert" button (or similar) — click it. The output should be a Webflow-compatible structure.
+Before you click convert, know what you're getting back. **The converter does not install your CSS/JS as site-wide Custom Code.** It inlines them as Webflow **Embed** nodes:
 
-The converter typically gives you one of two flows:
-- **Direct import:** the converter pushes the structure to Webflow via its API. Sign in with your Webflow credentials, select the project + page.
-- **Copy structure:** copy the generated Webflow markup (looks like nested divs with attributes) and paste into Webflow Designer's canvas.
+- Your CSS becomes a `<style>` Embed (the Conversion Stats panel labels it `CSS`).
+- Your JS becomes a `<script>` Embed (labeled `JS`).
+- Both are inserted as **children of the converted component's root element** — visible in the Navigator, not in Project Settings → Custom Code.
 
-Follow whichever flow the converter uses. After import, you should see your structure rendered in the Webflow Designer canvas.
+Webflow puts a permanent warning on the `<script>` Embed: *"This `<script>` embed only displays in preview mode (with custom code enabled) or on the published/exported site."* That's expected — inline Embed scripts don't run in the Designer canvas.
+
+**The component works as-is on the published site.** But for any project where the component is reused across pages or sites — i.e. this skill's "tune once, propagate" workflow — relocate the code to site-level Custom Code after pasting:
+
+1. In the Navigator, find the `CSS` Embed inside your component → copy its contents → paste into **Project Settings → Custom Code → Head Code** → delete the inline `CSS` Embed.
+2. Find the `JS` Embed → copy its contents (already wrapped in `Webflow.push()` by the build script) → paste into **Footer Code** → delete the inline `JS` Embed.
+3. Republish the site so the relocated custom code takes effect.
+
+If you skip relocation, the component still renders on the published site, but: (a) the Designer canvas won't reflect your styles, (b) `inDesigner` JS guards won't run where the docs assume they do, and (c) every pasted instance ships its own duplicate copy of the CSS/JS, each with its own drift surface. See [designer-canvas-fixes.md](designer-canvas-fixes.md) and [webflow-runtime.md](webflow-runtime.md) §2 for why this matters.
+
+### Step 4 — Convert + copy to Webflow
+
+Click the **`→ Convert to Webflow`** button at the bottom of the editor. The converter copies a Webflow-pasteable markup snippet to your clipboard.
+
+There is **no** Webflow sign-in, no workspace/project picker, and no API push — clipboard copy is the only flow the current moden.club tool offers.
+
+Switch to Webflow Designer and **paste** (Cmd/Ctrl+V) into the canvas at the target insertion point. After pasting, you should see your structure rendered in the Designer canvas (subject to the inline-Embed caveat above — styling appears once you relocate the CSS Embed or view in preview/published).
 
 ### Step 5 — Re-link images
 
@@ -123,6 +139,8 @@ Then update the image's src in Webflow (manual or via further MCP).
 For batch uploads (e.g., 20+ images), MCP is significantly faster.
 
 ### Step 6 — Smoke-test in Designer canvas
+
+> **Precondition:** the canvas only reflects your styles/JS once you've relocated the inline `CSS`/`JS` Embeds to site Custom Code (see *"What the converter actually outputs"* above), or while viewing in **preview** mode with the inline Embeds still present. If the canvas looks unstyled, that's the inline-Embed behavior — not necessarily a CSS import failure. The diagnostics below assume styles/JS are actually applying.
 
 Before publishing:
 
@@ -187,6 +205,8 @@ Look for:
 
 If you see orphans, the next re-import (with the page deleted first) will clear them.
 
+**Re-importing a single element/component into a page you are NOT deleting?** (Mode A, or pasting a rebuilt component into an existing live page.) There is no page deletion to prune classes for you. Before pasting the rebuilt version, delete the **old pasted instance** from the page, then open the Class Manager and **manually delete the previous version's classes** that nothing else references (right-click → Delete). Renamed or removed classes from your last build will otherwise linger forever — Webflow never garbage-collects them on its own when the element, not the page, is replaced.
+
 ### Save a Webflow Backup
 
 After a successful import + publish:
@@ -229,6 +249,8 @@ Your `inDesigner` guard is missing or incorrect. ScrollTrigger animations are fi
 ### Symptom: Re-import duplicated classes — class manager has `tool-card`, `tool-card-2`, `tool-card-3`
 
 You forgot to delete the page in Webflow before re-importing. Webflow auto-suffixes new classes if a name conflict is detected. **Delete the page and the duplicate classes**, then re-import cleanly. The duplicate classes can be removed via Class Manager (right-click → delete) once nothing references them.
+
+If you're re-importing a **single element/component** into a page you're keeping (Mode A — no page to delete), the same suffixing happens unless you first delete the old pasted instance *and* its now-unused classes from the Class Manager. See the *Class manager check* note under Post-import housekeeping.
 
 ---
 
