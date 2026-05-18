@@ -1,6 +1,21 @@
 # Changelog
 
-All notable changes to the `html-to-converter-webflow` skill are documented here.
+All notable changes to the `html-to-webflow` plugin are documented here.
+
+## 0.2.0 — 2026-05-18
+
+Naming release. No skill, build-script, or converter behavior changed — only
+the plugin and skill identifiers, to fix the duplicated slash command.
+
+### Changed
+
+- **Plugin renamed `html-to-converter-webflow` → `html-to-webflow`** and the
+  **skill renamed → `convert`** (directory `skills/html-to-converter-webflow/`
+  → `skills/convert/`). The slash command is now `/html-to-webflow:convert`
+  instead of the repeated `/html-to-converter-webflow:html-to-converter-webflow`.
+  Reinstall with `/plugin install html-to-webflow@febinsha-webflow`. The
+  GitHub repo slug (`febi-git/html-to-converter-webflow`) is unchanged, so
+  `/plugin marketplace add` and clone URLs stay the same.
 
 ## 0.1.2 — 2026-05-18
 
@@ -14,7 +29,7 @@ the workflow content is identical to 0.1.1.
   `.claude-plugin/marketplace.json` (marketplace `febinsha-webflow`). Skill
   files moved under `skills/html-to-converter-webflow/`. Install with
   `/plugin marketplace add febi-git/html-to-converter-webflow` then
-  `/plugin install html-to-converter-webflow@febinsha-webflow`.
+  `/plugin install html-to-webflow@febinsha-webflow` (renamed in 0.2.0).
 
 ### Changed
 

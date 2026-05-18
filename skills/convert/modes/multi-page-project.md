@@ -68,7 +68,7 @@ Capture project rules in a `CLAUDE.md` at the project root so this skill behaves
 ```markdown
 # <Project Name> — Webflow Workflow
 
-This project authors pages locally in vanilla HTML/CSS/JS, then ships to Webflow via the Modern HTML to Webflow Converter (https://moden.club/tools/html-to-webflow). Workflow is managed by the html-to-converter-webflow skill.
+This project authors pages locally in vanilla HTML/CSS/JS, then ships to Webflow via the Modern HTML to Webflow Converter (https://moden.club/tools/html-to-webflow). Workflow is managed by the `/html-to-webflow:convert` skill.
 
 ## Hard rules
 - Build pages section by section. Never write a full page in one go.

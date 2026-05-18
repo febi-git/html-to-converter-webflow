@@ -1,4 +1,4 @@
-# html-to-converter-webflow
+# html-to-webflow
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Claude Code Plugin](https://img.shields.io/badge/Claude%20Code-Plugin-D77757)](https://code.claude.com/docs/en/plugins)
@@ -10,7 +10,7 @@ A Claude Code skill (works in other AI coding agents too) that turns hand-coded 
 
 ```
 /plugin marketplace add febi-git/html-to-converter-webflow
-/plugin install html-to-converter-webflow@febinsha-webflow
+/plugin install html-to-webflow@febinsha-webflow
 ```
 
 [Other agents (Cursor, Codex, Antigravity, …) →](#install)
@@ -48,15 +48,15 @@ Two commands inside Claude Code. No cloning, no manual restart.
 
 ```
 /plugin marketplace add febi-git/html-to-converter-webflow
-/plugin install html-to-converter-webflow@febinsha-webflow
+/plugin install html-to-webflow@febinsha-webflow
 ```
 
-That's it. The skill is then available as `/html-to-converter-webflow:html-to-converter-webflow` and auto-triggers when you mention Webflow conversion topics. To scope it to one project instead of your user account, append `--scope project` to the install command.
+That's it. The skill is then available as `/html-to-webflow:convert` and auto-triggers when you mention Webflow conversion topics. To scope it to one project instead of your user account, append `--scope project` to the install command.
 
 > **Non-interactive (terminal) equivalent:**
 > ```bash
 > claude plugin marketplace add febi-git/html-to-converter-webflow
-> claude plugin install html-to-converter-webflow@febinsha-webflow
+> claude plugin install html-to-webflow@febinsha-webflow
 > ```
 
 For non–Claude Code agents, clone the repo into your project once:
@@ -71,25 +71,25 @@ Then point your agent at the skill using its rules/instructions file:
 
 Add this line to your project's `.cursor/rules/index.mdc` (create the file if it doesn't exist):
 
-> When the user mentions importing HTML to Webflow, the moden.club converter, or Webflow paste tool, follow the workflow in `.ai/html-to-converter-webflow/skills/html-to-converter-webflow/SKILL.md`.
+> When the user mentions importing HTML to Webflow, the moden.club converter, or Webflow paste tool, follow the workflow in `.ai/html-to-converter-webflow/skills/convert/SKILL.md`.
 
 ### Codex
 
 Add this line to your project's `AGENTS.md` (Codex reads it automatically):
 
-> When the user mentions importing HTML to Webflow, the moden.club converter, or Webflow paste tool, follow the workflow in `.ai/html-to-converter-webflow/skills/html-to-converter-webflow/SKILL.md`.
+> When the user mentions importing HTML to Webflow, the moden.club converter, or Webflow paste tool, follow the workflow in `.ai/html-to-converter-webflow/skills/convert/SKILL.md`.
 
 ### Antigravity
 
 Add the same line to your project's `AGENTS.md` (or Antigravity's rules file):
 
-> When the user mentions importing HTML to Webflow, the moden.club converter, or Webflow paste tool, follow the workflow in `.ai/html-to-converter-webflow/skills/html-to-converter-webflow/SKILL.md`.
+> When the user mentions importing HTML to Webflow, the moden.club converter, or Webflow paste tool, follow the workflow in `.ai/html-to-converter-webflow/skills/convert/SKILL.md`.
 
 ### Any other agent
 
 The skill is plain Markdown — any LLM-based agent can follow it. Clone the repo anywhere, then tell your agent:
 
-> Read `skills/html-to-converter-webflow/SKILL.md` in [path/to/cloned/repo] and follow its workflow when I mention importing HTML to Webflow.
+> Read `skills/convert/SKILL.md` in [path/to/cloned/repo] and follow its workflow when I mention importing HTML to Webflow.
 
 ## Updating
 
@@ -98,7 +98,7 @@ The skill is plain Markdown — any LLM-based agent can follow it. Clone the rep
 Plugins update through the marketplace — no `git pull`, no re-clone:
 
 ```
-/plugin update html-to-converter-webflow@febinsha-webflow
+/plugin update html-to-webflow@febinsha-webflow
 ```
 
 Updates are delivered only when the plugin's `version` is bumped (it tracks the `version:` in `SKILL.md`). Changes are listed in [CHANGELOG.md](CHANGELOG.md).
@@ -111,13 +111,13 @@ Run `git pull` in whichever folder you cloned into:
 git -C .ai/html-to-converter-webflow pull
 ```
 
-To check whether you're behind, compare the `version:` field at the top of your local [`SKILL.md`](https://github.com/febi-git/html-to-converter-webflow/blob/main/skills/html-to-converter-webflow/SKILL.md) against GitHub. If you locally edited your copy (custom prefix, `COLLIDE_RENAMES` baseline), `git pull` may report merge conflicts — resolve them or re-clone fresh.
+To check whether you're behind, compare the `version:` field at the top of your local [`SKILL.md`](https://github.com/febi-git/html-to-converter-webflow/blob/main/skills/convert/SKILL.md) against GitHub. If you locally edited your copy (custom prefix, `COLLIDE_RENAMES` baseline), `git pull` may report merge conflicts — resolve them or re-clone fresh.
 
 ## First run (5 steps)
 
 1. **Install** using the commands for your agent (above). Claude Code plugin users are ready immediately — no restart.
 2. **Open your agent** in any folder — a scratch folder works fine for the first run.
-3. **Type** `/html-to-converter-webflow:html-to-converter-webflow` (Claude Code) or "use the html-to-converter-webflow workflow" (other agents).
+3. **Type** `/html-to-webflow:convert` (Claude Code) or "use the html-to-webflow converter workflow" (other agents).
 4. **Answer "a"** for "Building a single component or section" — the smallest, fastest path to your first successful Webflow import.
 5. **Follow the prompts.** The skill asks for your component idea, writes the HTML/CSS/JS, runs the build script, and walks you step-by-step through pasting into [moden.club](https://moden.club/tools/html-to-webflow) and importing into Webflow.
 
@@ -128,7 +128,7 @@ After your first successful component, try mode **b** (editing an existing site)
 In Claude Code:
 
 ```
-/html-to-converter-webflow:html-to-converter-webflow
+/html-to-webflow:convert
 ```
 
 Or just describe what you want — the skill auto-triggers on phrases like:
@@ -150,7 +150,7 @@ html-to-converter-webflow/                  # plugin + marketplace repo
 ├── LICENSE                             # MIT
 ├── CHANGELOG.md
 └── skills/
-    └── html-to-converter-webflow/
+    └── convert/
         ├── SKILL.md                    # entry — frontmatter + mode router
         ├── modes/
         │   ├── component-or-section.md       # mode (a)

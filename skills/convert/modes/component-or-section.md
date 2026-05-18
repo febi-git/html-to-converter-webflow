@@ -117,4 +117,4 @@ Skipping this is the #1 source of class-manager bloat for single-component workf
 
 - Run the build one final time.
 - Confirm the `.webflow.*` files committed are current.
-- Note in any project doc / Linear ticket: "uses html-to-converter-webflow workflow; rebuild via `python _build.py` before re-importing."
+- Note in any project doc / Linear ticket: "uses the `/html-to-webflow:convert` skill; rebuild via `python _build.py` before re-importing."
