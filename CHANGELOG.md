@@ -2,6 +2,26 @@
 
 All notable changes to the `html-to-converter-webflow` skill are documented here.
 
+## 0.1.2 — 2026-05-18
+
+Packaging release. No skill, build-script, or converter behavior changed —
+the workflow content is identical to 0.1.1.
+
+### Added
+
+- **Installable Claude Code plugin.** Repo restructured into an all-in-one
+  plugin + marketplace: `.claude-plugin/plugin.json` manifest and
+  `.claude-plugin/marketplace.json` (marketplace `febinsha-webflow`). Skill
+  files moved under `skills/html-to-converter-webflow/`. Install with
+  `/plugin marketplace add febi-git/html-to-converter-webflow` then
+  `/plugin install html-to-converter-webflow@febinsha-webflow`.
+
+### Changed
+
+- **README install/update flow** rewritten for the plugin marketplace, with
+  clone-based instructions for Cursor, Codex, and Antigravity (replacing the
+  prior Cline/Roo guidance).
+
 ## 0.1.1 — 2026-05-16
 
 Documentation/UX corrections from real-project usage. No build-script or
