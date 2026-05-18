@@ -33,21 +33,22 @@ Each mode walks through authoring → building → importing into Webflow → re
 
 ## Install
 
-Pick the line for your agent. Each one is a single paste-able command.
+### Claude Code (recommended) — plugin marketplace
 
-### Claude Code (recommended)
+Two commands inside Claude Code. No cloning, no manual restart.
 
-**macOS / Linux:**
-```bash
-git clone https://github.com/febi-git/html-to-converter-webflow ~/.claude/skills/html-to-converter-webflow
+```
+/plugin marketplace add febi-git/html-to-converter-webflow
+/plugin install html-to-converter-webflow@febinsha-webflow
 ```
 
-**Windows (PowerShell):**
-```powershell
-git clone https://github.com/febi-git/html-to-converter-webflow $env:USERPROFILE\.claude\skills\html-to-converter-webflow
-```
+That's it. The skill is then available as `/html-to-converter-webflow:html-to-converter-webflow` and auto-triggers when you mention Webflow conversion topics. To scope it to one project instead of your user account, append `--scope project` to the install command.
 
-> **⚠️ Restart required.** After cloning, **fully restart Claude Code** — and if you're using the **Claude Code VS Code extension**, **close and reopen VS Code entirely** (not just the Claude panel). The `/html-to-converter-webflow` slash command will not appear in the menu until the editor is restarted. Once restarted, the skill shows up in `/help` and triggers automatically when you mention Webflow conversion topics.
+> **Non-interactive (terminal) equivalent:**
+> ```bash
+> claude plugin marketplace add febi-git/html-to-converter-webflow
+> claude plugin install html-to-converter-webflow@febinsha-webflow
+> ```
 
 ### Cursor
 
@@ -57,7 +58,7 @@ git clone https://github.com/febi-git/html-to-converter-webflow ~/.cursor/rules/
 
 Then add this line to your project's `.cursor/rules/index.mdc` (create the file if it doesn't exist):
 
-> When the user mentions importing HTML to Webflow, the moden.club converter, or Webflow paste tool, follow the workflow in `html-to-converter-webflow/SKILL.md`.
+> When the user mentions importing HTML to Webflow, the moden.club converter, or Webflow paste tool, follow the workflow in `html-to-converter-webflow/skills/html-to-converter-webflow/SKILL.md`.
 
 ### Cline / Roo Code
 
@@ -71,45 +72,37 @@ Cline and Roo will pick up the rules folder automatically.
 
 Clone the repo anywhere on disk, then tell your agent:
 
-> Read `SKILL.md` in [path/to/cloned/repo] and follow its workflow when I mention importing HTML to Webflow.
+> Read `skills/html-to-converter-webflow/SKILL.md` in [path/to/cloned/repo] and follow its workflow when I mention importing HTML to Webflow.
 
 The skill is plain Markdown — any LLM-based agent can follow it.
 
-### Per-project install (Claude Code)
-
-If you want different defaults per project (different prefix, different `COLLIDE_RENAMES` baseline):
-
-```bash
-git clone https://github.com/febi-git/html-to-converter-webflow ./.claude/skills/html-to-converter-webflow
-```
-
-> **VS Code users:** restart VS Code (not just reload the window or restart the Claude panel) before the per-project skill becomes available.
-
 ## Updating
 
-Installs are a one-time `git clone` — they **don't auto-update**. To pull the latest fixes, run `git pull` inside your installed copy, then restart your editor.
+### Claude Code (plugin)
 
-**Claude Code (Windows / PowerShell):**
-```powershell
-git -C "$env:USERPROFILE\.claude\skills\html-to-converter-webflow" pull
+Plugins update through the marketplace — no `git pull`, no re-clone:
+
+```
+/plugin update html-to-converter-webflow@febinsha-webflow
 ```
 
-**Claude Code (macOS / Linux):**
+Updates are delivered only when the plugin's `version` is bumped (it tracks the `version:` in `SKILL.md`). Changes are listed in [CHANGELOG.md](CHANGELOG.md).
+
+### Cursor / Cline / other agents (clone-based)
+
+Run `git pull` in whichever folder you cloned into (`.cursor/rules/...`, `.clinerules/...`):
+
 ```bash
-git -C ~/.claude/skills/html-to-converter-webflow pull
+git -C ~/.cursor/rules/html-to-converter-webflow pull
 ```
 
-For Cursor / Cline / per-project installs, run `git pull` in whichever folder you cloned into (`.cursor/rules/...`, `.clinerules/...`, `./.claude/skills/...`).
-
-> **Restart required.** Same as install — fully restart Claude Code, and close/reopen VS Code entirely if you use the extension, before the updated skill loads.
-
-To check whether you're behind, compare the `version:` field at the top of your local `SKILL.md` against the [latest `SKILL.md`](https://github.com/febi-git/html-to-converter-webflow/blob/main/SKILL.md) on GitHub. Changes are listed in [CHANGELOG.md](CHANGELOG.md). If you locally edited your copy (custom prefix, `COLLIDE_RENAMES` baseline), `git pull` may report merge conflicts — resolve them or re-clone fresh.
+To check whether you're behind, compare the `version:` field at the top of your local [`SKILL.md`](https://github.com/febi-git/html-to-converter-webflow/blob/main/skills/html-to-converter-webflow/SKILL.md) against GitHub. If you locally edited your copy (custom prefix, `COLLIDE_RENAMES` baseline), `git pull` may report merge conflicts — resolve them or re-clone fresh.
 
 ## First run (5 steps)
 
-1. **Install** using the command for your agent (above), then **restart your editor** — VS Code users must fully close and reopen VS Code, not just reload the window, before the slash command shows up.
+1. **Install** using the commands for your agent (above). Claude Code plugin users are ready immediately — no restart.
 2. **Open your agent** in any folder — a scratch folder works fine for the first run.
-3. **Type** `/html-to-converter-webflow` (Claude Code) or "use the html-to-converter-webflow workflow" (other agents). If the slash command doesn't autocomplete, the editor hasn't picked up the new skill yet — restart it.
+3. **Type** `/html-to-converter-webflow:html-to-converter-webflow` (Claude Code) or "use the html-to-converter-webflow workflow" (other agents).
 4. **Answer "a"** for "Building a single component or section" — the smallest, fastest path to your first successful Webflow import.
 5. **Follow the prompts.** The skill asks for your component idea, writes the HTML/CSS/JS, runs the build script, and walks you step-by-step through pasting into [moden.club](https://moden.club/tools/html-to-webflow) and importing into Webflow.
 
@@ -120,7 +113,7 @@ After your first successful component, try mode **b** (editing an existing site)
 In Claude Code:
 
 ```
-/html-to-converter-webflow
+/html-to-converter-webflow:html-to-converter-webflow
 ```
 
 Or just describe what you want — the skill auto-triggers on phrases like:
@@ -134,32 +127,38 @@ Or just describe what you want — the skill auto-triggers on phrases like:
 ## What the skill ships
 
 ```
-html-to-converter-webflow/
-├── SKILL.md                          # entry — frontmatter + mode router
-├── README.md                         # you are here
-├── LICENSE                           # MIT
-├── modes/
-│   ├── component-or-section.md       # mode (a)
-│   ├── existing-site.md              # mode (b)
-│   └── multi-page-project.md         # mode (c)
-├── reference/
-│   ├── css-rules.md                  # 7 BEM rules with examples
-│   ├── designer-canvas-fixes.md      # inDesigner guard + workarounds
-│   ├── webflow-runtime.md            # Webflow.push, GSAP CDN, body overflow-x
-│   ├── class-collisions.md           # detection + COLLIDE_RENAMES protocol
-│   ├── variable-mapping.md           # VAR_TO_LITERAL inlining + sanity check
-│   ├── asset-handling.md             # placehold.co + Asset Manager re-link
-│   ├── frameworks-comparison.md      # BEM vs Lumos vs Client First tradeoffs
-│   └── webflow-designer-checklist.md # full Webflow-side steps + MCP integration
-└── templates/
-    ├── _build.py                     # parameterized build script
-    ├── page-template.html            # starter scaffold
-    ├── tokens.css                    # empty design tokens
-    ├── base.css                      # reset + typography + layout
-    ├── components.css                # button placeholder
-    ├── page.css                      # empty page CSS
-    ├── page.js                       # IIFE + inDesigner guard
-    └── inDesigner-canvas-snippet.js  # canonical canvas guard, copy-pasteable
+html-to-converter-webflow/                  # plugin + marketplace repo
+├── .claude-plugin/
+│   ├── plugin.json                     # plugin manifest
+│   └── marketplace.json                # marketplace: febinsha-webflow
+├── README.md                           # you are here
+├── LICENSE                             # MIT
+├── CHANGELOG.md
+└── skills/
+    └── html-to-converter-webflow/
+        ├── SKILL.md                    # entry — frontmatter + mode router
+        ├── modes/
+        │   ├── component-or-section.md       # mode (a)
+        │   ├── existing-site.md              # mode (b)
+        │   └── multi-page-project.md         # mode (c)
+        ├── reference/
+        │   ├── css-rules.md                  # 7 BEM rules with examples
+        │   ├── designer-canvas-fixes.md      # inDesigner guard + workarounds
+        │   ├── webflow-runtime.md            # Webflow.push, GSAP CDN, body overflow-x
+        │   ├── class-collisions.md           # detection + COLLIDE_RENAMES protocol
+        │   ├── variable-mapping.md           # VAR_TO_LITERAL inlining + sanity check
+        │   ├── asset-handling.md             # placehold.co + Asset Manager re-link
+        │   ├── frameworks-comparison.md      # BEM vs Lumos vs Client First tradeoffs
+        │   └── webflow-designer-checklist.md # full Webflow-side steps + MCP integration
+        └── templates/
+            ├── _build.py                     # parameterized build script
+            ├── page-template.html            # starter scaffold
+            ├── tokens.css                    # empty design tokens
+            ├── base.css                      # reset + typography + layout
+            ├── components.css                # button placeholder
+            ├── page.css                      # empty page CSS
+            ├── page.js                       # IIFE + inDesigner guard
+            └── inDesigner-canvas-snippet.js  # canonical canvas guard, copy-pasteable
 ```
 
 ## What problems it solves

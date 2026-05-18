@@ -1,0 +1,18 @@
+{
+  "name": "html-to-converter-webflow",
+  "version": "0.1.1",
+  "description": "Ship hand-coded or vibe-coded HTML/CSS/JS into Webflow via the moden.club converter. Encodes 48+ tested fixes for class collisions, Designer canvas glitches, GSAP/ScrollTrigger integration, asset re-linking, and re-import cleanup.",
+  "author": {
+    "name": "febi-git"
+  },
+  "homepage": "https://github.com/febi-git/html-to-converter-webflow",
+  "repository": "https://github.com/febi-git/html-to-converter-webflow",
+  "license": "MIT",
+  "keywords": [
+    "webflow",
+    "html-to-webflow",
+    "moden.club",
+    "converter",
+    "gsap"
+  ]
+}

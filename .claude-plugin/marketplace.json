@@ -1,0 +1,16 @@
+{
+  "name": "febinsha-webflow",
+  "owner": {
+    "name": "febi-git"
+  },
+  "description": "Webflow workflow skills by febi-git.",
+  "plugins": [
+    {
+      "name": "html-to-converter-webflow",
+      "source": "./",
+      "description": "Ship hand-coded or vibe-coded HTML/CSS/JS into Webflow via the moden.club converter. 48+ tested fixes for class collisions, Designer canvas glitches, GSAP integration, asset re-linking, and re-import cleanup.",
+      "category": "productivity",
+      "tags": ["webflow", "html", "css", "gsap", "converter"]
+    }
+  ]
+}
