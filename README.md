@@ -1,10 +1,19 @@
 # html-to-converter-webflow
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Claude Code Skill](https://img.shields.io/badge/Claude%20Code-Skill-D77757)](https://docs.claude.com/en/docs/claude-code/skills)
+[![Claude Code Plugin](https://img.shields.io/badge/Claude%20Code-Plugin-D77757)](https://code.claude.com/docs/en/plugins)
 [![Works with Webflow](https://img.shields.io/badge/Works%20with-Webflow-146EF5)](https://webflow.com)
 
 A Claude Code skill (works in other AI coding agents too) that turns hand-coded or vibe-coded HTML/CSS/JS into clean, Webflow-importable bundles via the **Modern HTML to Webflow Converter** ([moden.club/tools/html-to-webflow](https://moden.club/tools/html-to-webflow)).
+
+**Install in Claude Code (two commands):**
+
+```
+/plugin marketplace add febi-git/html-to-converter-webflow
+/plugin install html-to-converter-webflow@febinsha-webflow
+```
+
+[Other agents (Cursor, Cline, …) →](#install)
 
 It encodes ~48 fixes that came out of shipping a real production page through this workflow — the things you'd otherwise re-discover the hard way: class collisions with the live site, Designer canvas scroll lag, GSAP/ScrollTrigger timing issues, asset re-linking, and Webflow re-import cleanup.
 
