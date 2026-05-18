@@ -13,7 +13,7 @@ A Claude Code skill (works in other AI coding agents too) that turns hand-coded 
 /plugin install html-to-converter-webflow@febinsha-webflow
 ```
 
-[Other agents (Cursor, Cline, …) →](#install)
+[Other agents (Cursor, Codex, Antigravity, …) →](#install)
 
 It encodes ~48 fixes that came out of shipping a real production page through this workflow — the things you'd otherwise re-discover the hard way: class collisions with the live site, Designer canvas scroll lag, GSAP/ScrollTrigger timing issues, asset re-linking, and Webflow re-import cleanup.
 
@@ -35,7 +35,7 @@ Each mode walks through authoring → building → importing into Webflow → re
 
 ## What you'll need
 
-- An AI coding agent — **Claude Code** is the smoothest fit; Cursor, Cline, and Roo Code also work.
+- An AI coding agent — **Claude Code** is the smoothest fit; Cursor, Codex, and Antigravity also work.
 - **Python 3** on your machine (already installed on most macOS and Linux; on Windows install from [python.org](https://www.python.org/downloads/) if missing).
 - A **Webflow site** you can publish to (any plan — Starter is fine for testing).
 - About **15 minutes** for your first end-to-end run.
@@ -59,31 +59,37 @@ That's it. The skill is then available as `/html-to-converter-webflow:html-to-co
 > claude plugin install html-to-converter-webflow@febinsha-webflow
 > ```
 
+For non–Claude Code agents, clone the repo into your project once:
+
+```bash
+git clone https://github.com/febi-git/html-to-converter-webflow .ai/html-to-converter-webflow
+```
+
+Then point your agent at the skill using its rules/instructions file:
+
 ### Cursor
 
-```bash
-git clone https://github.com/febi-git/html-to-converter-webflow ~/.cursor/rules/html-to-converter-webflow
-```
+Add this line to your project's `.cursor/rules/index.mdc` (create the file if it doesn't exist):
 
-Then add this line to your project's `.cursor/rules/index.mdc` (create the file if it doesn't exist):
+> When the user mentions importing HTML to Webflow, the moden.club converter, or Webflow paste tool, follow the workflow in `.ai/html-to-converter-webflow/skills/html-to-converter-webflow/SKILL.md`.
 
-> When the user mentions importing HTML to Webflow, the moden.club converter, or Webflow paste tool, follow the workflow in `html-to-converter-webflow/skills/html-to-converter-webflow/SKILL.md`.
+### Codex
 
-### Cline / Roo Code
+Add this line to your project's `AGENTS.md` (Codex reads it automatically):
 
-```bash
-git clone https://github.com/febi-git/html-to-converter-webflow ./.clinerules/html-to-converter-webflow
-```
+> When the user mentions importing HTML to Webflow, the moden.club converter, or Webflow paste tool, follow the workflow in `.ai/html-to-converter-webflow/skills/html-to-converter-webflow/SKILL.md`.
 
-Cline and Roo will pick up the rules folder automatically.
+### Antigravity
+
+Add the same line to your project's `AGENTS.md` (or Antigravity's rules file):
+
+> When the user mentions importing HTML to Webflow, the moden.club converter, or Webflow paste tool, follow the workflow in `.ai/html-to-converter-webflow/skills/html-to-converter-webflow/SKILL.md`.
 
 ### Any other agent
 
-Clone the repo anywhere on disk, then tell your agent:
+The skill is plain Markdown — any LLM-based agent can follow it. Clone the repo anywhere, then tell your agent:
 
 > Read `skills/html-to-converter-webflow/SKILL.md` in [path/to/cloned/repo] and follow its workflow when I mention importing HTML to Webflow.
-
-The skill is plain Markdown — any LLM-based agent can follow it.
 
 ## Updating
 
@@ -97,12 +103,12 @@ Plugins update through the marketplace — no `git pull`, no re-clone:
 
 Updates are delivered only when the plugin's `version` is bumped (it tracks the `version:` in `SKILL.md`). Changes are listed in [CHANGELOG.md](CHANGELOG.md).
 
-### Cursor / Cline / other agents (clone-based)
+### Cursor / Codex / Antigravity / other agents (clone-based)
 
-Run `git pull` in whichever folder you cloned into (`.cursor/rules/...`, `.clinerules/...`):
+Run `git pull` in whichever folder you cloned into:
 
 ```bash
-git -C ~/.cursor/rules/html-to-converter-webflow pull
+git -C .ai/html-to-converter-webflow pull
 ```
 
 To check whether you're behind, compare the `version:` field at the top of your local [`SKILL.md`](https://github.com/febi-git/html-to-converter-webflow/blob/main/skills/html-to-converter-webflow/SKILL.md) against GitHub. If you locally edited your copy (custom prefix, `COLLIDE_RENAMES` baseline), `git pull` may report merge conflicts — resolve them or re-clone fresh.
