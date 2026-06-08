@@ -29,7 +29,7 @@ When you invoke the skill, it asks one question: **what are you doing?**
 
 - **a) Building a single component or section** — quick scaffold, no full-page setup. Ship one card, one CTA strip, one hero, etc.
 - **b) Editing an existing Webflow site** — point at a `.zip` export of your live site; the skill reads it, detects class collisions, and walks you through adding a new page, modifying an existing one, or extracting variables for reuse.
-- **c) Starting a new multi-page project** — full scaffold with tokens / base / components / per-page CSS. Defaults to BEM single-underscore convention; documents Lumos and Finsweet Client First as alternatives for very large projects.
+- **c) Starting a new multi-page project** — full scaffold with per-page CSS. Asks which CSS framework to use first: **Lumos v2**, **Finsweet Client-First v2.1**, or self-contained **BEM** (or name your own). New-project single components (mode a) get the same choice.
 
 Each mode walks through authoring → building → importing into Webflow → re-linking assets → publishing.
 
@@ -157,21 +157,26 @@ html-to-converter-webflow/                  # plugin + marketplace repo
         │   ├── existing-site.md              # mode (b)
         │   └── multi-page-project.md         # mode (c)
         ├── reference/
-        │   ├── css-rules.md                  # 7 BEM rules with examples
+        │   ├── css-rules.md                  # 7 BEM rules with examples (the default)
         │   ├── designer-canvas-fixes.md      # inDesigner guard + workarounds
         │   ├── webflow-runtime.md            # Webflow.push, GSAP CDN, body overflow-x
         │   ├── class-collisions.md           # detection + COLLIDE_RENAMES protocol
-        │   ├── variable-mapping.md           # VAR_TO_LITERAL inlining + sanity check
+        │   ├── variable-mapping.md           # VAR_TO_LITERAL inlining + sanity check (BEM)
         │   ├── asset-handling.md             # placehold.co + Asset Manager re-link
-        │   ├── frameworks-comparison.md      # BEM vs Lumos vs Client First tradeoffs
+        │   ├── frameworks-comparison.md      # the framework chooser (Lumos / Client-First / BEM)
+        │   ├── frameworks/
+        │   │   ├── lumos.md                  # Lumos v2 authoring rules
+        │   │   └── client-first.md           # Client-First v2.1 authoring rules
         │   └── webflow-designer-checklist.md # full Webflow-side steps + MCP integration
         └── templates/
-            ├── _build.py                     # parameterized build script
-            ├── page-template.html            # starter scaffold
-            ├── tokens.css                    # empty design tokens
-            ├── base.css                      # reset + typography + layout
-            ├── components.css                # button placeholder
+            ├── _build.py                     # parameterized build script (FRAMEWORK flag)
+            ├── page-template.html            # BEM starter scaffold
+            ├── tokens.css                    # empty design tokens (BEM)
+            ├── base.css                      # reset + typography + layout (BEM)
+            ├── components.css                # button placeholder (BEM)
             ├── page.css                      # empty page CSS
+            ├── lumos/                        # Lumos v2 page template + page.js + SETUP.md
+            ├── client-first/                 # Client-First page template + page.js + SETUP.md
             ├── page.js                       # IIFE + inDesigner guard
             └── inDesigner-canvas-snippet.js  # canonical canvas guard, copy-pasteable
 ```
@@ -192,15 +197,19 @@ html-to-converter-webflow/                  # plugin + marketplace repo
 
 ## Conventions
 
-The skill ships with one opinionated default: **single-underscore BEM** with state modifiers as combo classes. Example:
+For a **new project** the skill asks which CSS framework to use — all three are first-class:
 
-```css
-.tool-card { ... }
-.tool-card_title { ... }
-.tool-card.is_live { ... }
-```
+- **Lumos (v2)** — variable + container-query driven, breakpointless. Best designer-developer ergonomics. Authoring: `reference/frameworks/lumos.md`; templates: `templates/lumos/`.
+- **Finsweet Client-First (v2.1)** — descriptive utilities, cleanest handoff to non-technical clients. Authoring: `reference/frameworks/client-first.md`; templates: `templates/client-first/`.
+- **BEM (single-underscore)** — fully self-contained, zero setup, imports anywhere. The default for one-offs and framework-less sites:
 
-This convention plays cleanest with the converter. Mode (c) (`multi-page-project`) discusses **Lumos** and **Finsweet Client First** as alternatives, with a tradeoff table — but the skill doesn't natively support them out of the box.
+  ```css
+  .tool-card { ... }
+  .tool-card_title { ... }
+  .tool-card.is_live { ... }
+  ```
+
+**Self-contained vs cloneable-referencing.** BEM inlines every token to a literal and defines everything itself, so it imports into any Webflow site with no setup. Lumos and Client-First instead **reference** the framework's global utilities/variables and keep `var()` refs intact — so you clone the framework's official Webflow project first (it carries the Global Styles embed), and the generated output ships component CSS only. The build script handles the difference via a `FRAMEWORK` flag. You can also name any other framework and the skill follows its docs using the same cloneable-referencing pattern.
 
 ## License
 

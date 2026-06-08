@@ -9,20 +9,37 @@ Pipeline:
   pages/_shared/base.css    │        https://moden.club/tools/html-to-webflow)
   pages/_shared/components.css┘
 
+Two output pipelines, selected by FRAMEWORK:
+
+  - "bem" (default): SELF-CONTAINED output. Bundles _shared tokens/base/
+    components + page CSS, drops the :root block, and inlines EVERY var(--...)
+    ref as a literal hex / value. Imports into any Webflow site with no setup.
+
+  - "lumos" / "client-first": CLONEABLE-REFERENCING output. The framework's
+    official Webflow cloneable (Global Styles embed) already defines all
+    utilities and variables, so we emit COMPONENT/CUSTOM-class CSS ONLY and
+    KEEP var(--...) refs intact (they resolve against the cloned project).
+    No tokens/base/components bundling, no :root drop, no var inlining.
+    See reference/frameworks/<framework>.md.
+
 Steps:
   1. Extract <body> content from the source HTML; drop empty navbar/footer
      placeholders and <script> tags (those go in Webflow's Footer Code).
-  2. Concatenate _shared CSS (tokens → base → components) + page CSS, with
-     any @import lines (e.g. Google Fonts) promoted to the top.
+  2. CSS bundle:
+       - bem: _shared (tokens → base → components) + page CSS.
+       - lumos / client-first: page CSS only.
+     @import lines (e.g. Google Fonts) are promoted to the top either way.
   3. Read source JS (plain IIFE form).
-  4. CSS: drop the :root token block, then inline EVERY var(--...) ref as a
-     literal hex / value (so Webflow's color picker treats imported colors as
-     standalone editable swatches rather than variable references).
+  4. CSS (bem only): drop the :root token block, then inline EVERY var(--...)
+     ref as a literal hex / value. For lumos / client-first this step is
+     skipped — var() refs are kept.
   5. HTML + CSS + JS: prefix every class in COLLIDE_RENAMES with PREFIX so the
-     import doesn't merge into existing live-site classes.
+     import doesn't merge into existing live-site classes. (For lumos /
+     client-first, NEVER add utility classes or framework variables here —
+     they are intentionally global.)
   6. JS: swap the outer `(function(){...})()` IIFE for
      `window.Webflow.push(function(){...})` so it runs after Webflow init.
-  7. Sanity check: zero var(--...) refs may remain in the output CSS.
+  7. Sanity check (bem only): zero var(--...) refs may remain in the output CSS.
 
 Run:  python pages/<slug>/_converter/_build.py
 """
@@ -34,6 +51,15 @@ import sys
 # ===========================================================================
 # === PROJECT CONFIG — fill these in for your project =======================
 # ===========================================================================
+
+# CSS naming framework. Controls the whole output pipeline:
+#   "bem"          → self-contained: bundle _shared CSS, drop :root, inline vars.
+#   "lumos"        → cloneable-referencing: component CSS only, keep var() refs.
+#   "client-first" → cloneable-referencing: custom-class CSS only, keep var() refs.
+# For lumos / client-first the user must clone the framework's official Webflow
+# project first (it carries the Global Styles embed). See
+# reference/frameworks/<framework>.md.
+FRAMEWORK = "bem"
 
 # Page slug — the folder name under pages/. Output files are named <slug>.webflow.*
 PAGE_SLUG = ""  # e.g. "home", "about", "pricing"
@@ -197,11 +223,14 @@ def build_html(rename_map):
 
 
 def build_css(var_map, rename_map):
-    # Bundle order: tokens -> base -> shared components -> page CSS.
+    # Bundle order. BEM is self-contained: tokens -> base -> shared components
+    # -> page CSS. Lumos / Client-First reference the cloned framework's global
+    # styles, so we emit page (component/custom-class) CSS ONLY.
     parts = []
-    for path in (TOKENS_CSS_PATH, BASE_CSS_PATH, COMPONENTS_CSS_PATH):
-        if os.path.exists(path):
-            parts.append(_read(path))
+    if FRAMEWORK == "bem":
+        for path in (TOKENS_CSS_PATH, BASE_CSS_PATH, COMPONENTS_CSS_PATH):
+            if os.path.exists(path):
+                parts.append(_read(path))
     if os.path.exists(SRC_CSS):
         parts.append(_read(SRC_CSS))
     bundled = "\n\n".join(parts)
@@ -214,26 +243,37 @@ def build_css(var_map, rename_map):
         if extra not in imports:
             imports.append(extra)
 
-    # Drop the entire :root token block - the live site (or future
-    # imports) defines variables; duplicating them under different names
-    # just clutters the Webflow class panel.
-    bundled = re.sub(r":root\s*\{[^}]*\}\s*", "", bundled, count=1)
-
-    # Inline every var(--...) ref as a literal hex / value.
-    for k, v in var_map.items():
-        bundled = bundled.replace(k, v)
+    # BEM only: drop the :root token block and inline every var(--...) ref as a
+    # literal hex / value, so Webflow treats imported colors as standalone
+    # editable swatches. Lumos / Client-First KEEP their var() refs — they
+    # resolve against the cloned framework's Webflow variables.
+    if FRAMEWORK == "bem":
+        bundled = re.sub(r":root\s*\{[^}]*\}\s*", "", bundled, count=1)
+        for k, v in var_map.items():
+            bundled = bundled.replace(k, v)
 
     # Class renames.
     bundled = _apply_class_renames_in_selectors(bundled, rename_map)
 
+    if FRAMEWORK == "bem":
+        _provenance = (
+            "   Bundles _shared/(tokens|base|components).css + the page CSS,\n"
+            "   inlines every token var as a literal hex / value,\n"
+            f"   and prefixes colliding classes with `{PREFIX}`.\n"
+        )
+    else:
+        _provenance = (
+            f"   Framework: {FRAMEWORK} (cloneable-referencing).\n"
+            "   Component/custom-class CSS only; utilities + variables come from\n"
+            "   the cloned framework's Global Styles embed. var() refs kept intact.\n"
+            f"   Prefixes colliding classes with `{PREFIX}` (never utilities).\n"
+        )
     header = (
         f"/* =============================================\n"
         f"   {PAGE_SLUG.upper()} - generated by _build.py\n"
         f"   Paste into the CSS tab of the Modern HTML to Webflow Converter\n"
         f"   (https://moden.club/tools/html-to-webflow).\n"
-        f"   Bundles _shared/(tokens|base|components).css + the page CSS,\n"
-        f"   inlines every token var as a literal hex / value,\n"
-        f"   and prefixes colliding classes with `{PREFIX}`.\n"
+        f"{_provenance}"
         f"   Do not edit by hand - re-run the build script after changing source.\n"
         f"   ============================================= */\n\n"
     )
@@ -278,13 +318,27 @@ def build_js(rename_map):
 
 
 def sanity_check_vars(css):
-    leftover = sorted(set(re.findall(r"var\(--[a-z][a-z0-9_-]*\)", css)))
+    # Match both BEM-style (--color-orange) and framework-style underscore-led
+    # vars (Lumos --_theme---text) so the report/check is accurate for all.
+    leftover = sorted(set(re.findall(r"var\(--[a-z_][a-z0-9_-]*\)", css)))
 
     print("Wrote:", DST_HTML)
     print("Wrote:", DST_CSS)
     if os.path.exists(SRC_JS):
         print("Wrote:", DST_JS)
     print()
+
+    # Lumos / Client-First KEEP var() refs (they resolve against the cloned
+    # framework's variables). Leftover var() is expected and correct there, so
+    # we only report it — we don't fail the build.
+    if FRAMEWORK != "bem":
+        if leftover:
+            print(f"OK: {len(leftover)} var() ref(s) kept for {FRAMEWORK} "
+                  "(resolve against the cloned framework's Global Styles).")
+        else:
+            print(f"OK: no var() refs in output ({FRAMEWORK}).")
+        return
+
     if leftover:
         print("ERROR: var() refs remain in output (build inlines all tokens):")
         for u in leftover:
@@ -301,11 +355,15 @@ def main():
     if not PAGE_SLUG:
         raise SystemExit("Set PAGE_SLUG at the top of _build.py before running.")
 
-    # Build the rename map and var map.
+    # Build the rename map and var map. The var map is only used by the BEM
+    # pipeline (to inline tokens to literals); lumos / client-first keep var()
+    # refs, so we don't bother populating it.
     rename_map = _build_rename_map()
-    var_map = dict(VAR_TO_LITERAL)
-    if not var_map:
-        var_map = parse_tokens_css(TOKENS_CSS_PATH)
+    var_map = {}
+    if FRAMEWORK == "bem":
+        var_map = dict(VAR_TO_LITERAL)
+        if not var_map:
+            var_map = parse_tokens_css(TOKENS_CSS_PATH)
 
     build_html(rename_map)
     css_after = build_css(var_map, rename_map)

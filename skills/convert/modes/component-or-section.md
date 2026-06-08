@@ -17,6 +17,11 @@ Before scaffolding, confirm with the user:
 
 1. **What is the component?** (e.g. "a hero with a wave canvas", "a 4-up service grid", "a stats strip")
 2. **Will it be embedded in an existing Webflow site?** If yes, you need to know whether the site already has classes that might collide. Skim [reference/class-collisions.md](../reference/class-collisions.md). If the user has the existing site's CSS export, do a quick collision check.
+   - **If the site already uses a framework** (Lumos / Client-First / other), **author the component in that framework** so it drops in cleanly — follow [reference/frameworks/lumos.md](../reference/frameworks/lumos.md) / [reference/frameworks/client-first.md](../reference/frameworks/client-first.md), and set `FRAMEWORK` accordingly. The framework's globals already exist on the site, so the component references them.
+   - **If this is for an entirely new project** (no existing Webflow site to embed into), ask which CSS framework to use — same choice as a new multi-page project. Use AskUserQuestion:
+     > Which CSS framework? **1) Lumos (v2)** · **2) Finsweet Client-First (v2.1)** · **3) BEM (self-contained, zero setup)** · **Other**.
+
+     For **Lumos / Client-First**, the component references the framework's Global Styles embed, so the user must **clone the framework's Webflow project first** (see `templates/<framework>/SETUP.md`) before importing. For a quick one-off with no framework, **BEM** is usually the right call (self-contained, no setup). See [reference/frameworks-comparison.md](../reference/frameworks-comparison.md). Load the matching reference + `templates/<framework>/` and set the `_build.py` `FRAMEWORK` flag to match.
 3. **What's the design source, and what are you actually going for?** Don't settle for a one-word answer here — this is where the component succeeds or fails. Invite the user to:
    - **Explain the idea in their own words** — the purpose of the component, the feel they want, anything they specifically like or want to avoid.
    - **Share references**: a screenshot or mockup, a Figma link, a live URL to emulate, or an existing component/codebase to match the style of. If they paste or point to reference code, read it before authoring.
@@ -39,11 +44,15 @@ Copy from templates:
 - [templates/page-template.html](../templates/page-template.html) — strip everything except the `<head>` boilerplate and the `<main>` shell. Drop the navbar/footer placeholders.
 - [templates/_build.py](../templates/_build.py) — set `PAGE_SLUG = "component"` (or whatever name fits).
 
-You don't need separate `tokens.css` / `base.css` / `components.css` files for a single component. Either:
+You don't need separate `tokens.css` / `base.css` / `components.css` files for a single component.
+
+**BEM:** either:
 - **Embed tokens directly in `component.css`** under a `:root` block at the top, OR
 - **Inline literal values throughout** and skip tokens entirely — fine for a one-off.
 
 If the component is going into a site that already has its own token system, **don't** add a `:root` block — that pollutes the live site's variables. Inline literals only.
+
+**Lumos / Client-First:** copy the page template from `templates/<framework>/` and author with the framework's structure. **Do not add a `:root` block or redefine tokens/utilities** — they live in the cloned project's Global Styles embed. Reference framework variables/utilities and keep `var()` refs intact (set `FRAMEWORK` in `_build.py` so the build doesn't inline them).
 
 ### Step 3 — Author the component
 
@@ -65,11 +74,13 @@ If the component needs animation:
 
 Open `_build.py` and fill in:
 
+- `FRAMEWORK` — `"bem"` (default, self-contained), `"lumos"`, or `"client-first"`. For Lumos / Client-First this keeps `var()` refs and skips token inlining/bundling.
 - `PAGE_SLUG` — your component name.
-- `COLLIDE_RENAMES` — every class your component uses **that already exists on the target Webflow site**. To detect:
+- `COLLIDE_RENAMES` — every **custom** class your component uses **that already exists on the target Webflow site**. To detect:
   - If the user has the site's exported CSS, grep it: `grep -E '^\.<class-name>(\s|\.|,|\{)' path/to/site.css`
-  - If the user doesn't have an export, default to prefixing every class your component defines (zero-collision, defensive).
-- `VAR_TO_LITERAL` — only if you used CSS variables. If you inlined literal values directly, leave it empty.
+  - If the user doesn't have an export, default to prefixing every custom class your component defines (zero-collision, defensive).
+  - **Lumos / Client-First:** never add framework utilities (`u-*`, `padding-global`, `heading-style-*`, …) here — they're intentionally global.
+- `VAR_TO_LITERAL` — **BEM only**, and only if you used CSS variables. Lumos / Client-First keep `var()` refs (don't inline), so leave it empty.
 
 See [reference/class-collisions.md](../reference/class-collisions.md) for the detection workflow.
 
@@ -79,7 +90,7 @@ See [reference/class-collisions.md](../reference/class-collisions.md) for the de
 python _build.py
 ```
 
-It produces three files: `<slug>.webflow.html`, `<slug>.webflow.css`, `<slug>.webflow.js`. The sanity check fails the build if any unexpected `var()` refs leak through — see [reference/variable-mapping.md](../reference/variable-mapping.md).
+It produces three files: `<slug>.webflow.html`, `<slug>.webflow.css`, `<slug>.webflow.js`. For BEM, the sanity check fails the build if any unexpected `var()` refs leak through — see [reference/variable-mapping.md](../reference/variable-mapping.md). For Lumos / Client-First, kept `var()` refs are expected and reported, not an error.
 
 ### Step 6 — Import into Webflow
 

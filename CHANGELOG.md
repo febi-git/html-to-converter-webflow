@@ -2,6 +2,47 @@
 
 All notable changes to the `html-to-webflow` plugin are documented here.
 
+## 0.3.0 — 2026-06-08
+
+First-class multi-framework support. For a **new project** (a new multi-page
+site in Mode C, or a new-project component in Mode A) the skill now asks which
+CSS framework to use — **Lumos v2** and **Finsweet Client-First v2.1** as the
+headline options, with **BEM** as the self-contained default and a free-text
+escape hatch for any other framework. Lumos and Client-First were studied
+against their official specs and incorporated so the generated output imports
+cleanly into Webflow Designer.
+
+### Added
+
+- **Framework authoring references.** `reference/frameworks/lumos.md` (Lumos
+  **v2** — `_wrap`/`_contain`/`_layout` triad, `component_type_element` naming,
+  `u-*` utilities, the variable system, Designer-import requirements, mirroring
+  Timothy Ricks' official generation spec) and
+  `reference/frameworks/client-first.md` (Client-First **v2.1** — class types,
+  `page-wrapper`/`main-wrapper`/`section_*`/`padding-global`/`container-*`
+  structure, the full utility vocabulary, spacing/typography scales).
+- **Framework templates.** `templates/lumos/` and `templates/client-first/`,
+  each with a `page-template.html` (correct framework structure), `page.js`, and
+  a `SETUP.md` covering the clone-the-cloneable step and local-preview caveat.
+
+### Changed
+
+- **`templates/_build.py` is framework-aware** via a new `FRAMEWORK` flag
+  (`"bem"` | `"lumos"` | `"client-first"`). BEM is unchanged (self-contained:
+  drop `:root`, inline every `var()` to a literal). Lumos/Client-First are
+  **cloneable-referencing**: component/custom-class CSS only, `var()` refs kept
+  intact (no token bundling, no inlining), and the "zero `var()` may remain"
+  sanity check is relaxed to a report.
+- **Mode C** (`multi-page-project.md`) and **Mode A** (`component-or-section.md`)
+  now ask the framework question for new projects, branch the scaffold to the
+  right templates/build flag, and record the choice in the project `CLAUDE.md`.
+- **`frameworks-comparison.md`** rewritten: all three frameworks are first-class
+  (was "BEM only — fork the templates yourself"), with a self-contained vs
+  cloneable-referencing explanation and a Lumos v2-vs-v1 note.
+- **`SKILL.md`** and **`css-rules.md`** marked framework-aware: the BEM 7 rules
+  are the default; Lumos/Client-First follow their own reference, and the
+  inline-tokens hard rule is scoped to BEM.
+
 ## 0.2.0 — 2026-05-18
 
 Naming release. No skill, build-script, or converter behavior changed — only

@@ -1,7 +1,7 @@
 {
   "name": "html-to-webflow",
-  "version": "0.2.0",
-  "description": "Ship hand-coded or vibe-coded HTML/CSS/JS into Webflow via the moden.club converter. Encodes 48+ tested fixes for class collisions, Designer canvas glitches, GSAP/ScrollTrigger integration, asset re-linking, and re-import cleanup.",
+  "version": "0.3.0",
+  "description": "Ship hand-coded or vibe-coded HTML/CSS/JS into Webflow via the moden.club converter. Encodes 48+ tested fixes for class collisions, Designer canvas glitches, GSAP/ScrollTrigger integration, asset re-linking, and re-import cleanup. Asks which CSS framework to use for new projects — Lumos v2, Finsweet Client-First v2.1, or self-contained BEM.",
   "author": {
     "name": "febi-git"
   },

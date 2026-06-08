@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- ===== SEO ===== -->
+  <title>Page Title — Site Name</title>
+  <meta name="description" content="Page description (under 160 chars).">
+  <link rel="canonical" href="https://example.com/page-slug">
+
+  <!-- ===== Open Graph ===== -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Page Title — Site Name">
+  <meta property="og:description" content="Page description.">
+  <meta property="og:image" content="">
+  <meta property="og:url" content="https://example.com/page-slug">
+
+  <!-- ===== Favicon ===== -->
+  <link rel="icon" type="image/png" href="/favicon.png">
+
+  <!-- ===== Fonts (preconnect) ===== -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <!-- ===== Stylesheets =====
+       LUMOS v2 is cloneable-referencing. Utilities (u-*) and variables
+       (--_theme---*, --_spacing---*, …) live in the cloned Lumos project's
+       Global Styles embed — NOT here. The build does not bundle base/tokens.
+
+       For LOCAL PREVIEW ONLY, export your cloned Lumos project's CSS and link
+       it below so u-* utilities render in the browser. This file is NOT shipped
+       to Webflow (the cloned project already has it). See SETUP.md. -->
+  <!-- <link rel="stylesheet" href="lumos-global.css"> -->
+
+  <!-- Page-specific component CSS (the only CSS the build ships): -->
+  <!-- <link rel="stylesheet" href="page-name.css"> -->
+</head>
+<body>
+  <main>
+
+    <!-- ===== SECTION: HERO =====
+         Lumos structure: [name]_wrap u-section
+                            └ [name]_contain u-container
+                               └ [name]_layout   (grid/flex lives HERE, never on u-container)
+         First section uses page-top section spacing (clears the nav).
+         Component class FIRST, then utilities. Every element gets a component class. -->
+    <section class="hero_wrap u-section">
+      <div class="hero_contain u-container">
+        <div class="hero_layout">
+
+          <div class="hero_eyebrow_wrap">
+            <p class="hero_eyebrow u-text-style-small">Eyebrow</p>
+          </div>
+
+          <h1 class="hero_title u-text-style-h1">Page headline goes here.</h1>
+
+          <div class="hero_text_wrap u-text">
+            <p class="hero_text u-text-style-large">
+              Sub-headline expanding on the H1 in one or two sentences.
+            </p>
+          </div>
+
+          <div class="hero_button-group_wrap">
+            <div class="hero_button_wrap u-button-wrapper">
+              <a href="#" class="hero_button">Primary CTA</a>
+            </div>
+            <div class="hero_button_wrap u-button-wrapper">
+              <a href="#" class="hero_button is-secondary">Secondary CTA</a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Add subsequent sections here, one at a time. Same _wrap/_contain/_layout triad. -->
+
+  </main>
+
+  <!-- ===== Scripts (page-specific) ===== -->
+  <!-- <script src="page-name.js"></script> -->
+
+  <!--
+    LUMOS authoring rules: reference/frameworks/lumos.md
+    Before importing: clone the official Lumos v2 Webflow project so the Global
+    Styles embed (utilities + variables) is present on every page. See SETUP.md.
+
+    When ready to push to Webflow:
+      1. Copy templates/_build.py into this page's _converter/ folder. Set
+         FRAMEWORK = "lumos", PAGE_SLUG, and (rarely) COLLIDE_RENAMES.
+      2. Run: python pages/<slug>/_converter/_build.py
+      3. Paste the generated .webflow.{html,css,js} into the Modern HTML to
+         Webflow Converter at https://moden.club/tools/html-to-webflow.
+    See the /html-to-webflow:convert skill for the full flow.
+  -->
+</body>
+</html>

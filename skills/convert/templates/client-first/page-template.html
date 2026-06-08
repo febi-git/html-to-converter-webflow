@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- ===== SEO ===== -->
+  <title>Page Title — Site Name</title>
+  <meta name="description" content="Page description (under 160 chars).">
+  <link rel="canonical" href="https://example.com/page-slug">
+
+  <!-- ===== Open Graph ===== -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Page Title — Site Name">
+  <meta property="og:description" content="Page description.">
+  <meta property="og:image" content="">
+  <meta property="og:url" content="https://example.com/page-slug">
+
+  <!-- ===== Favicon ===== -->
+  <link rel="icon" type="image/png" href="/favicon.png">
+
+  <!-- ===== Fonts (preconnect) ===== -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <!-- ===== Stylesheets =====
+       CLIENT-FIRST is cloneable-referencing. The utility classes
+       (heading-style-*, padding-section-*, container-*, text-size-*, …) and
+       project variables live in the cloned Client-First project's Global
+       Styles embed — NOT here. The build does not bundle base/tokens.
+
+       For LOCAL PREVIEW ONLY, export your cloned project's CSS and link it
+       below so the utilities render. This file is NOT shipped to Webflow
+       (the cloned project already has it). See SETUP.md. -->
+  <!-- <link rel="stylesheet" href="client-first-global.css"> -->
+
+  <!-- Page-specific custom-class CSS (the only CSS the build ships): -->
+  <!-- <link rel="stylesheet" href="page-name.css"> -->
+</head>
+<body>
+
+  <!-- Navbar lives OUTSIDE main-wrapper (not page-specific content). -->
+  <!-- <div class="navbar"> … </div> -->
+
+  <div class="page-wrapper">
+    <main class="main-wrapper">
+
+      <!-- ===== SECTION: HERO =====
+           Client-First structure:
+             section_[identifier]
+               └ padding-global  (+ padding-section-[size] on the same div, v2.1)
+                  └ container-[size]
+                     └ content -->
+      <section class="section_hero">
+        <div class="padding-global padding-section-large">
+          <div class="container-large">
+
+            <p class="hero_eyebrow text-size-small text-style-allcaps">Eyebrow</p>
+            <h1 class="heading-style-h1">Page headline goes here.</h1>
+            <p class="text-size-large">Sub-headline expanding on the H1 in one or two sentences.</p>
+
+            <div class="spacer-medium"></div>
+
+            <div class="button-group">
+              <a href="#" class="button">Primary CTA</a>
+              <a href="#" class="button is-secondary">Secondary CTA</a>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- Add subsequent sections here, one at a time. Same section_/padding-global/container structure. -->
+
+    </main>
+  </div>
+
+  <!-- The `global-styles` embed comes from the cloned Client-First project. -->
+
+  <!-- ===== Scripts (page-specific) ===== -->
+  <!-- <script src="page-name.js"></script> -->
+
+  <!--
+    CLIENT-FIRST authoring rules: reference/frameworks/client-first.md
+    Before importing: clone the official Client-First cloneable so the
+    global-styles embed (utilities + variables) is present on every page.
+    See SETUP.md.
+
+    When ready to push to Webflow:
+      1. Copy templates/_build.py into this page's _converter/ folder. Set
+         FRAMEWORK = "client-first", PAGE_SLUG, and (rarely) COLLIDE_RENAMES.
+      2. Run: python pages/<slug>/_converter/_build.py
+      3. Paste the generated .webflow.{html,css,js} into the Modern HTML to
+         Webflow Converter at https://moden.club/tools/html-to-webflow.
+    See the /html-to-webflow:convert skill for the full flow.
+  -->
+</body>
+</html>

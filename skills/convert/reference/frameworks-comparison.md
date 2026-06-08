@@ -1,6 +1,14 @@
 # Naming framework comparison: BEM vs Lumos vs Finsweet Client First
 
-This skill defaults to single-underscore BEM. For larger projects, frameworks like Lumos and Finsweet Client First offer scaling benefits that may justify their tradeoffs against the converter rules. This file lays out the comparison so the user can choose.
+**All three are first-class in this skill.** For a new project the skill asks which you want, with **Lumos** and **Finsweet Client-First** as the headline options (real Webflow projects with Designer authoring) and **BEM** as the lightweight, fully self-contained option. You can also name any other framework. This file is the chooser; the framework-specific authoring rules live in:
+
+- [frameworks/lumos.md](frameworks/lumos.md) — Lumos **v2** ruleset
+- [frameworks/client-first.md](frameworks/client-first.md) — Client-First **v2.1** ruleset
+- [css-rules.md](css-rules.md) — BEM (the self-contained default)
+
+> **Lumos v2 vs v1.** This skill targets **Lumos v2** (variable + container-query driven, breakpointless). Lumos v1 (legacy attribute utilities like `mt2`, `fs1`) is not generated. See [frameworks/lumos.md](frameworks/lumos.md).
+
+> **Self-contained vs cloneable-referencing.** BEM output is **self-contained** — it inlines every token to a literal and defines everything itself, so it imports into any Webflow site with no setup. Lumos and Client-First output is **cloneable-referencing** — it applies the framework's global utilities/variables and keeps `var()` refs intact, so the user must **clone the framework's official Webflow project first** (it carries the Global Styles embed). That setup step is the price of cross-page deduplication and Designer ergonomics.
 
 ---
 
@@ -161,23 +169,29 @@ The deciding factors:
 
 ## What this skill supports natively
 
-**BEM only.** The templates in `templates/` and the build script in `_build.py` assume BEM single-underscore.
+**All three.** Each framework has its own authoring reference, templates, and build behavior:
 
-If you pick Lumos or Client First:
+| Framework | Authoring rules | Templates | Build (`_build.py`) | Output |
+| --- | --- | --- | --- | --- |
+| **BEM** | [css-rules.md](css-rules.md) (the 7 rules) | `templates/` (root) | `FRAMEWORK = "bem"` | Self-contained: `:root` dropped, every `var()` inlined to a literal |
+| **Lumos v2** | [frameworks/lumos.md](frameworks/lumos.md) | `templates/lumos/` | `FRAMEWORK = "lumos"` | Cloneable-referencing: component CSS only, `var()` + `u-*` kept intact |
+| **Client-First v2.1** | [frameworks/client-first.md](frameworks/client-first.md) | `templates/client-first/` | `FRAMEWORK = "client-first"` | Cloneable-referencing: custom-class CSS only, utilities + `var()` kept |
 
-1. **Read this comparison and the framework's official docs** before scaffolding.
-2. **Disable rule #6** (avoid utility classes) in your project. The skill's `reference/css-rules.md` has rule #6; for Lumos / Client First projects, ignore it.
-3. **Adjust the build script.** `COLLIDE_RENAMES` becomes less useful; `VAR_TO_LITERAL` still applies if you use CSS variables.
-4. **Write your own templates.** The skill's `templates/page-template.html`, `base.css`, `components.css` assume BEM. For Lumos / Client First, fork and rewrite to match the framework's structure.
+When the user picks Lumos or Client-First:
 
-The skill points you to the framework, but doesn't try to be three things at once. Trying to support all three would compromise the BEM defaults that work cleanly with the converter.
+1. **Read the matching `frameworks/*.md` reference end-to-end** before scaffolding — it carries the exact naming, structure, and utility vocabulary.
+2. **Clone the framework's official Webflow project first.** Lumos v2 and Client-First both depend on a Global Styles embed that defines the utilities/variables the generated CSS references. See the "Setup first" section of each reference. Without the cloneable, imported markup renders unstyled.
+3. **Rule #6 (avoid utilities) does not apply** — these frameworks are utility-driven by design. Authoring rules come from the framework reference, not the BEM 7 rules.
+4. **Use the framework's templates and build preset** — `templates/lumos/` or `templates/client-first/`, each with a `_build.py` that has the right `FRAMEWORK` flag set.
+
+For **any other framework** the user names, follow that framework's official docs and apply the same cloneable-referencing pattern (apply globals, keep `var()`, set `FRAMEWORK` to a non-BEM value so the build doesn't inline tokens).
 
 ---
 
 ## Recommendation
 
-**Start with BEM.** If the project hits the scaling pain (5+ duplicate eyebrow declarations across pages, designers complaining about repeated property setting), then evaluate switching. Mid-project switches are painful — the duplication you wanted to avoid by switching ends up duplicated in the rewrite.
+For a **real Webflow project** that designers or a client will edit in the Designer — pick **Lumos** (best designer-developer ergonomics, breakpointless, if the team is comfortable with it) or **Client-First** (cleanest handoff to non-technical clients, most consistent across projects). Both require cloning the framework's cloneable first.
 
-For a brand-new 10+ page project where you know upfront that designers will be in the Designer canvas frequently, **start with Client First** (cleanest handoff to non-technical clients) or **Lumos** (best designer-developer ergonomics if the team has Lumos experience).
+Pick **BEM** when you want **zero setup and fully self-contained output** — a one-off component, a small site, or importing into a site that has no framework. It needs no cloneable and imports anywhere.
 
-**Don't switch frameworks mid-project** unless you're prepared to rewrite every page.
+**Don't switch frameworks mid-project** unless you're prepared to rewrite every page — the structure and class vocabulary differ enough that a switch is a rewrite.

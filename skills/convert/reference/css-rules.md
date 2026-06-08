@@ -1,6 +1,8 @@
-# CSS Authoring Rules
+# CSS Authoring Rules (BEM — the self-contained default)
 
 The 7 rules that make CSS importable into Webflow via the moden.club converter.
+
+> **These are the BEM rules.** BEM is this skill's self-contained default — it inlines all tokens to literals and needs no framework setup. If the project uses **Lumos** or **Finsweet Client-First**, follow that framework's reference instead — [frameworks/lumos.md](frameworks/lumos.md) or [frameworks/client-first.md](frameworks/client-first.md) — which are utility-driven and keep `var()` refs. Rules 1, 3, 4, 5, 7 below (REM, class-only, no descendants, simple selectors, no complex pseudos) still broadly hold for those frameworks because they're converter constraints; rules 2 (single-underscore naming) and 6 (no utilities) are BEM-specific and are replaced by the framework's own conventions.
 
 ---
 
@@ -75,7 +77,7 @@ Tailwind-style utilities (`.mt-4`, `.text-center`, `.flex`) explode into hundred
 
 A small handful of layout helpers is fine (`.container`, `.section`). The line is: **if it represents a structural element, name it; if it represents a single CSS property, don't.**
 
-**Exception:** Lumos and Finsweet Client First projects intentionally violate this rule for cross-page deduplication. See [frameworks-comparison.md](frameworks-comparison.md). For BEM (this skill's default), follow rule 6 strictly.
+**Exception:** Lumos and Finsweet Client-First are utility-driven by design — this rule does **not** apply to them. Their utilities live in the cloned project's Global Styles embed (not duplicated per-import), so the class-explosion problem this rule guards against doesn't occur. Follow [frameworks/lumos.md](frameworks/lumos.md) / [frameworks/client-first.md](frameworks/client-first.md) instead. For BEM (the default), follow rule 6 strictly.
 
 ## Rule 7 — No complex pseudo-selectors
 
